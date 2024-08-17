@@ -1,45 +1,52 @@
 import streamlit as st
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
 
-genai.configure(api_key='AIzaSyASLpt34cn0iHuO_2sOjD248E_5YGR1sEg')
+load_dotenv()
+
+
+api_key = os.getenv('api_key')
+
+
+genai.configure(api_key=api_key)
 
 
 model = genai.GenerativeModel('gemini-pro')
 
 
-st.set_page_config(page_title="Gemini Chatbot")
-
-st.title("Chatbot")
+st.set_page_config(page_title="Learning Roadmap Generator")
 
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+st.title("Learning Roadmap Generator")
 
 
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+st.subheader("Get a comprehensive roadmap to learn any topic from beginner to advanced")
 
 
-if prompt := st.chat_input("You:"):
-    
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    
-    
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
+user_topic = st.text_input("Enter the topic you want to learn:")
+
+
+if user_topic:
+    prompt = f"Create a comprehensive roadmap to learn {user_topic} from beginner to advanced, including blog articles and YouTube videos. Structure the roadmap in clear stages (e.g., Beginner, Intermediate, Advanced) and provide specific resources for each stage."
+
+    with st.spinner("Generating your learning roadmap..."):
         try:
             response = model.generate_content(prompt)
-            full_response = response.text
-            message_placeholder.markdown(full_response)
+            roadmap = response.text
+
+            
+            st.subheader(f"Learning Roadmap for {user_topic}")
+            st.markdown(roadmap)
+
+            
+            st.download_button(
+                label="Download Roadmap",
+                data=roadmap,
+                file_name=f"{user_topic}_roadmap.txt",
+                mime="text/plain"
+            )
+
         except Exception as e:
-            error_message = f"I'm sorry, I encountered an error. Please try again.\nError details: {str(e)}"
-            message_placeholder.markdown(error_message)
-            full_response = error_message
-    
-    
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+            st.error(f"An error occurred while generating the roadmap. Please try again. Error details: {str(e)}")
