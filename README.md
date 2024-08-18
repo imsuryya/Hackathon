@@ -24,7 +24,7 @@ This project was developed as part of the **Global AI Fest and Future Hackathon*
 1. **Clone this repository:**
 
     ```bash
-    git clone https://github.com/Venuchander/PathfinderAI.git
+    git clone https://github.com/imsuryya/PathfinderAI.git
     cd PathfinderAI
     ```
 
@@ -62,3 +62,14 @@ This project was developed as part of the **Global AI Fest and Future Hackathon*
 - FPDF
 - Python-dotenv
 - Google Gemini AI
+
+## Contributors
+
+<div style="display: flex; gap: 10px;">
+    <a href="https://github.com/imsuryya">
+        <img src="https://github.com/imsuryya.png" alt="Suryya" style="width: 50px; height: 50px; border-radius: 50%;"/>
+    </a>
+    <a href="https://github.com/Venuchander">
+        <img src="https://github.com/Venuchander.png" alt="Venuchander" style="width: 50px; height: 50px; border-radius: 50%;"/>
+    </a>
+</div>
